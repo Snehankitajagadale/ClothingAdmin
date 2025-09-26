@@ -1,0 +1,64 @@
+<div class="main-layout">
+  <div class="form-box">
+    <h2>Reviews for {{ productBrand }} {{ productModel }}</h2>
+
+    <!-- Loader -->
+    <div *ngIf="isLoading" class="loader-container">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Reviews Grid -->
+    <div *ngIf="!isLoading && visibleReviews.length > 0; else noReviews">
+      <div class="review-grid">
+        <div *ngFor="let review of visibleReviews" class="review-card">
+          <div class="review-content">
+            <p><strong>{{ review.userName }}</strong> rated {{ review.rating }}/5</p>
+            <p>{{ review.message }}</p>
+            <small>{{ review.date }}</small>
+
+            <!-- Variant Info -->
+            <p *ngIf="review.color || review.size" class="variant-info">
+              <strong>Variant:</strong>
+              <span *ngIf="review.color">Color: {{ review.color }}</span>
+              <span *ngIf="review.size"> | Size: {{ review.size }}</span>
+            </p>
+
+            <!-- Media -->
+            <div *ngIf="review.mediaUrl">
+              <img [src]="review.mediaUrl" alt="Review media" class="review-image" />
+            </div>
+          </div>
+
+          <!-- Delete button (fixed bottom of card) -->
+          <div class="review-actions">
+            <button class="delete-button" (click)="deleteReview(review.id)">
+              🗑 Delete
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Show More / Show Less -->
+      <div class="show-more-container" *ngIf="reviews.length > showCount">
+        <button
+          class="show-more-btn"
+          *ngIf="visibleReviews.length < reviews.length"
+          (click)="showMore()">
+          View More
+        </button>
+
+        <button
+          class="show-more-btn"
+          *ngIf="visibleReviews.length >= reviews.length"
+          (click)="showLess()">
+          View Less
+        </button>
+      </div>
+    </div>
+
+    <!-- No Reviews (must be sibling, not inside) -->
+    <ng-template #noReviews>
+      <p class="no-reviews-text">No reviews for this product yet.</p>
+    </ng-template>
+  </div>
+</div>

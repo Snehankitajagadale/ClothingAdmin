@@ -1,0 +1,116 @@
+<!-- Navbar with Notifications + Logout -->
+<nav class="fixed-navbar shadow">
+  <div class="navbar-left">
+    <img src="assets/clothingclientlogo.jpg" alt="Logo" class="img" />
+  </div>
+  <div class="navbar-right">
+    <!-- Notification Icon -->
+    <button class="icon-btn" aria-label="Notifications" (click)="toggleNotification()">
+      <i class="fas fa-bell"></i>
+      <span *ngIf="unreadNotificationsCount > 0" class="badge">
+        {{ unreadNotificationsCount }}
+      </span>
+    </button>
+
+    <!-- Notification Dropdown -->
+    <div *ngIf="showNotifications" class="notification-dropdown1">
+      <div class="notification-header">
+        <h3 class="m0">Notifications</h3>
+        <button class="close-btn" (click)="toggleNotification()">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+
+      <div class="notification-list">
+        <ul>
+          <li
+            *ngFor="let n of notifications"
+            (click)="openviewModal(n.notificationId)"
+            [class.unread]="!n.viewed"
+          >
+            <strong>Booking Update</strong> - {{ n.message }}
+            <br />
+            <small>{{ n.creation_time }}</small>
+          </li>
+        </ul>
+      </div>
+
+      <div class="notification-footer">
+        <button class="view-all-btn" routerLink="/notifications">View All</button>
+      </div>
+    </div>
+
+    <!-- Logout Button -->
+    <button class="logout-btn-direct" (click)="logout()">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+  </div>
+</nav>
+
+<!-- Notification Details Modal -->
+<div *ngIf="showviewModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Notification Details</h3>
+      <span class="notification-time">{{ selectedNotification?.creation_time }}</span>
+      <button class="close-btn" (click)="closeModal()">×</button>
+    </div>
+
+    <div class="modal-body">
+      <p><strong>Message:</strong> {{ selectedNotification?.message }}</p>
+
+      <hr />
+      <h3>User Details</h3>
+      <p><strong>User Name:</strong> {{ selectedNotification?.userDetails?.user_name }}</p>
+      <p><strong>Email:</strong> {{ selectedNotification?.userDetails?.email }}</p>
+      <p><strong>Mobile:</strong> {{ selectedNotification?.userDetails?.mobile_no }}</p>
+
+      <hr />
+      <h3>Booking Details</h3>
+      <div *ngIf="selectedNotification?.bookingDetails; else loadingBooking">
+        <p><strong>Booking ID:</strong> {{ selectedNotification.bookingDetails?.bookingId }}</p>
+        <p><strong>Status:</strong> {{ selectedNotification.bookingDetails?.bookingStatus }}</p>
+        <p><strong>Date:</strong> {{ selectedNotification.bookingDetails?.bookingDate }}</p>
+        <p><strong>Total Price:</strong> {{ selectedNotification.bookingDetails?.totalPrice }}</p>
+      </div>
+      <ng-template #loadingBooking>
+        <p>Loading booking details...</p>
+      </ng-template>
+
+      <hr />
+      <h3>Product Details</h3>
+      <div *ngIf="selectedNotification?.productDetails?.length > 0; else noProducts">
+        <div class="product-card" *ngFor="let p of selectedNotification.productDetails">
+          <img [src]="p.image_link" alt="Product Image" class="product-image" />
+          <div class="product-info">
+            <p><strong>Name:</strong> {{ p.product_name }}</p>
+            <p><strong>Color:</strong> {{ p.colorName }}</p>
+            <p><strong>Size:</strong> {{ p.description }}</p>
+            <p><strong>Price:</strong> {{ p.price }}</p>
+            <p><strong>Quantity:</strong> {{ p.qunatity }}</p>
+            <p><strong>Total:</strong> {{ p.total_price }}</p>
+          </div>
+        </div>
+      </div>
+      <ng-template #noProducts>
+        <p>No product details available.</p>
+      </ng-template>
+    </div>
+
+    <div class="modal-footer">
+
+  <!-- ✅ View Booking Button -->
+  <button
+    class="btn btn-primary"
+    *ngIf="selectedNotification?.bookingDetails?.bookingId"
+    [routerLink]="['/bookings', selectedNotification.bookingDetails.bookingId]"
+    (click)="closeModal()"
+  >
+    View Details
+  </button>
+    <button class="close-modal-btn" (click)="closeModal()">Close</button>
+
+</div>
+
+  </div>
+</div>

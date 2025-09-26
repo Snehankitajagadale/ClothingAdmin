@@ -1,0 +1,170 @@
+<div class="dashboard-container">
+  <h2 class="dashboard-title">📊 Sales & Booking Dashboard</h2>
+
+  <!-- Permanent Metrics Cards -->
+  <div class="row g-4">
+  <!-- Total Bookings -->
+  <div class="col-md-6 col-lg-3">
+    <a routerLink="/bookings" class="card-link">
+      <div class="stat-card gradient-green">
+        <div class="icon-wrapper"><i class="fas fa-file-signature"></i></div>
+        <div>
+          <h3>{{ totalBooking }}</h3>
+          <p>Total Bookings</p>
+        </div>
+      </div>
+      <div class="bottom-section">
+        <span>View</span>
+        <i class="fas fa-arrow-circle-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <!-- Total Products -->
+  <div class="col-md-6 col-lg-3">
+    <a routerLink="/product" class="card-link">
+      <div class="stat-card gradient-blue">
+        <div class="icon-wrapper"><i class="fas fa-box-open"></i></div>
+        <div>
+          <h3>{{ totalProducts }}</h3>
+          <p>Total Products</p>
+        </div>
+      </div>
+      <div class="bottom-section">
+        <span>View</span>
+        <i class="fas fa-arrow-circle-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <!-- Retail Sale -->
+  <div class="col-md-6 col-lg-3">
+    <a routerLink="/bookings" class="card-link">
+      <div class="stat-card gradient-orange">
+        <div class="icon-wrapper"><i class="fas fa-shopping-cart"></i></div>
+        <div>
+          <h3>₹{{ totalRetailSale }}</h3>
+          <p>Retail Sale</p>
+        </div>
+      </div>
+      <div class="bottom-section">
+        <span>View</span>
+        <i class="fas fa-arrow-circle-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <!-- Wholesale Sale -->
+  <div class="col-md-6 col-lg-3">
+    <a routerLink="/bookings" class="card-link">
+      <div class="stat-card gradient-red">
+        <div class="icon-wrapper"><i class="fas fa-truck-loading"></i></div>
+        <div>
+          <h3>₹{{ totalWholesaleSale }}</h3>
+          <p>Wholesale Sale</p>
+        </div>
+      </div>
+      <div class="bottom-section">
+        <span>View</span>
+        <i class="fas fa-arrow-circle-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <!-- Overall Sale -->
+  <div class="col-12 col-lg-6">
+    <a routerLink="/bookings" class="card-link">
+      <div class="stat-card gradient-purple">
+        <div class="icon-wrapper"><i class="fas fa-chart-line"></i></div>
+        <div>
+          <h3>₹{{ totalSale }}</h3>
+          <p>Total Overall Sale</p>
+        </div>
+      </div>
+      <div class="bottom-section">
+        <span>View</span>
+        <i class="fas fa-arrow-circle-right"></i>
+      </div>
+    </a>
+  </div>
+</div>
+
+  <!-- Date Filters -->
+  <div class="filter-controls mt-5">
+    <div class="date-group">
+      <label>Start Date</label>
+      <input type="date" [(ngModel)]="startDate" [max]="today" />
+    </div>
+    <div class="date-group">
+      <label>End Date</label>
+      <input type="date" [(ngModel)]="endDate" [max]="today" />
+    </div>
+    <button class="btn-search" (click)="searchByDate()">
+      <i class="fas fa-search"></i> Search
+    </button>
+    <button *ngIf="searchStatsVisible" class="btn-clear" (click)="clearSearch()">
+      <i class="fas fa-times"></i> Clear
+    </button>
+  </div>
+
+  <!-- Search Result Cards -->
+  <div *ngIf="searchStatsVisible" class="mt-5">
+    <h3 class="dashboard-title">🔍 Search Results ({{ startDate }} to {{ endDate }})</h3>
+    <div class="row g-4">
+      <!-- Booking -->
+      <!-- <div class="col-md-6 col-lg-3">
+        <div class="stat-card gradient-green">
+          <div class="icon-wrapper"><i class="fas fa-file-signature"></i></div>
+          <div>
+            <h3>{{ searchBooking }}</h3>
+            <p>Bookings</p>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- Products -->
+      <!-- <div class="col-md-6 col-lg-3">
+        <div class="stat-card gradient-blue">
+          <div class="icon-wrapper"><i class="fas fa-box-open"></i></div>
+          <div>
+            <h3>{{ searchProducts }}</h3>
+            <p>Products</p>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- Retail -->
+      <div class="col-md-6 col-lg-3">
+        <div class="stat-card gradient-orange">
+          <div class="icon-wrapper"><i class="fas fa-shopping-cart"></i></div>
+          <div>
+            <h3>₹{{ searchRetailSale }}</h3>
+            <p>Retail Sale</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wholesale -->
+      <div class="col-md-6 col-lg-3">
+        <div class="stat-card gradient-red">
+          <div class="icon-wrapper"><i class="fas fa-truck-loading"></i></div>
+          <div>
+            <h3>₹{{ searchWholesaleSale }}</h3>
+            <p>Wholesale Sale</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total -->
+      <div class="col-12 col-lg-6">
+        <div class="stat-card gradient-purple">
+          <div class="icon-wrapper"><i class="fas fa-chart-line"></i></div>
+          <div>
+            <h3>₹{{ searchTotalSale }}</h3>
+            <p>Total Sale</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

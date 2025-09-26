@@ -1,0 +1,113 @@
+
+/* Sidebar styles */
+.sidebar {
+    width: 300px; /* Increase width here */
+    height: 100vh;
+    background-color: #2c5364; /* Sidebar background color */
+    color: #ffffff; /* Text and icons color */
+    position: fixed;
+    left: 0;
+    top: 60px;
+    padding: 0.5rem;
+    transition: width 0.3s ease;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+}
+
+.sidebar-collapsed .sidebar {
+    width: 80px; /* This will remain the collapsed width */
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.collapse-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #ffffff; /* Button icon color */
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+}
+
+.nav-menu {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    color: #ffffff; /* Nav item text and icons color */
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    gap: 1rem;
+    font-size: 16px;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff; /* Text color on hover */
+    transform: translateX(5px);
+}
+
+.nav-item i {
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+}
+
+/* Hide text when sidebar is collapsed */
+.sidebar-collapsed .nav-text {
+    display: none;
+}
+
+/* Content area */
+.content {
+    flex: 1;
+    margin-left: 300px; /* Increase the content margin when sidebar is expanded */
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar-collapsed .content {
+    margin-left: 80px; /* Adjust the content margin when sidebar is collapsed */
+}
+
+.booking{
+    cursor: pointer;
+}
+
+.dashboard{
+    cursor: pointer;
+}
+.notifications{
+    cursor: pointer;
+}
+/* Media Query for responsive design */
+@media (max-width: 768px) {
+    .content {
+        margin-left: 120px;
+    }
+}

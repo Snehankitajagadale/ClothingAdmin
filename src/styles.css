@@ -1,0 +1,41 @@
+/* Always import base toastr styles */
+
+/* Toastr container fixed in viewport */
+#toast-container {
+  position: fixed !important;
+  top: 1rem !important;
+  right: 1rem !important;
+  z-index: 2147483647 !important; /* higher than everything */
+  width: auto !important;
+}
+
+/* Toast items inside the container */
+#toast-container > div {
+  position: relative !important;
+}
+
+/* Success toast */
+.toast-success {
+  background-color: #28a745 !important;
+  color: #fff !important;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+}
+
+/* Error toast */
+.toast-error {
+  background-color: #dc3545 !important;
+  color: #fff !important;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+}
+
+/* Optional text tweaks */
+.toast-title { font-size: 18px; }
+.toast-message { font-size: 16px; }

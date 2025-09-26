@@ -1,0 +1,108 @@
+<!-- my-profile.component.html -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+<div class="header">
+  <!-- <h2 class="text-center my-4">My Profile</h2> -->
+</div>
+
+<div class="hei">
+  <!-- Profile View -->
+  <!-- Profile View -->
+  <div class="profile-container row" *ngIf="!editMode">
+    <div class="profile-image col-md-4 text-center">
+      <img [src]="profile.image" alt="Profile" />
+    </div>
+
+    <div class="profile-details col-md-8">
+      <h6 class="row">
+        <span class="col-4">Name</span> <span class="col-1">:</span>
+        <span class="col-7">{{ profile.name }}</span>
+      </h6>
+      <h6 class="row">
+        <span class="col-4">Email</span> <span class="col-1">:</span>
+        <span class="col-7">{{ profile.email }}</span>
+      </h6>
+      <h6 class="row">
+        <span class="col-4">Mobile</span> <span class="col-1">:</span>
+        <span class="col-7">{{ profile.mobile }}</span>
+      </h6>
+
+      <div class="text-center">
+        <button class="buttone" (click)="toggleEdit()">Edit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Edit -->
+  <div class="profile-container1 mt-5" *ngIf="editMode">
+    <button class="profileb mb-3" (click)="toggleEdit()">
+      <i class="fa fa-angle-double-left profile" aria-hidden="true"></i> Profile
+    </button>
+    <form (ngSubmit)="saveProfile()">
+      <div class="row">
+        <!-- Profile Photo Upload -->
+        <div class="col-12 col-md-6">
+          <label>Profile Photo:</label>
+          <input class="w-100" type="file" (change)="onImageSelected($event)" />
+        </div>
+
+        <!-- Preview Image -->
+        <div class="col-12 col-md-6 text-center">
+          <img [src]="profile.image" alt="Preview" class="preview-img" />
+        </div>
+
+        <!-- Name -->
+        <div class="col-12 col-md-6">
+          <label class="d-block">Name:</label>
+          <input
+            class="w-100"
+            type="text"
+            [(ngModel)]="profile.name"
+            name="name"
+            required
+          />
+        </div>
+
+        <!-- Email -->
+        <div class="col-12 col-md-6">
+          <label class="d-block">Email:</label>
+          <input
+            class="w-100"
+            type="email"
+            [(ngModel)]="profile.email"
+            name="email"
+            required
+          />
+        </div>
+
+        <!-- Mobile Number -->
+        <div class="col-12 col-md-6">
+          <label class="d-block">Mobile Number:</label>
+          <input
+            class="w-100"
+            type="text"
+            [(ngModel)]="profile.mobile"
+            name="mobile"
+            maxlength="10"
+            required
+          />
+        </div>
+
+        <!-- Buttons -->
+        <div class="alij mt-4 mb-2">
+          <button type="submit" class="save-button mx-2">Save</button>
+          <button type="button" class="cancel mx-2" (click)="toggleEdit()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

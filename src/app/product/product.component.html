@@ -1,0 +1,163 @@
+<div class="main-layout">
+
+  <!-- Toggle Filter Button for Mobile -->
+  <!-- <button class="toggle-filter-btn" (click)="toggleFilterPanel()">☰ Filters</button> -->
+
+  <!-- Filter Panel -->
+  <!-- <div class="filter-panel" [ngClass]="{ 'show-mobile-filter': isFilterVisible }">
+    <h3 class="filter-title">Filter Products</h3>
+
+    <h4>Categories</h4>
+    <div *ngFor="let cat of categories">
+      <label>
+        <input type="checkbox" [checked]="selectedCategories.includes(cat.category_name || cat.name || cat.categoryName)"
+               (change)="toggleCategory(cat.category_name || cat.name || cat.categoryName)">
+        {{ cat.category_name || cat.name || cat.categoryName }}
+      </label>
+    </div>
+
+    <div *ngIf="getAllSubcategoriesNames().length">
+      <h4>Subcategories</h4>
+      <div *ngFor="let sub of getAllSubcategoriesNames()">
+        <label>
+          <input type="checkbox" [checked]="selectedSubcategories.includes(sub)" (change)="toggleSubcategory(sub)">
+          {{ sub }}
+        </label>
+      </div>
+    </div>
+
+    <div *ngIf="selectedSubcategories.length > 0">
+      <h4>Brands</h4>
+      <div *ngFor="let brandName of filteredBrands">
+        <label>
+          <input type="checkbox" [checked]="isBrandSelected(brandName)" (change)="toggleBrandSelection(brandName)">
+          {{ brandName }}
+        </label>
+      </div>
+    </div>
+
+    <h4>Price Range</h4>
+    <input type="range" min="0" max="100000" [(ngModel)]="priceRange">
+    <p>₹0 - ₹{{ priceRange }}</p>
+
+    <div class="filter-actions">
+      <button class="btn btn-sm btn-primary" (click)="resetFilters()">Reset</button>
+    </div>
+  </div> -->
+
+  <!-- Product Panel -->
+  <div class="product-panel">
+    <div class="add-btn-wrapper">
+      <button class="add-btn btn btn-success" (click)="goToAddProduct()">Add Product</button>
+    </div>
+
+    <div class="search-container">
+  <input
+    type="text"
+    placeholder="Search by brand or model"
+    [(ngModel)]="searchTerm"
+    (input)="onSearchChange()"
+    class="search-input"
+  />
+</div>
+
+    <!-- Products Table -->
+    <table class="product-table" *ngIf="filteredProducts">
+      <thead>
+        <tr>
+          <th>Sr. No.</th>
+          <th>Image</th>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Actions</th>
+          <th>View Details</th>
+          <th>View Reviews</th>
+          <th>Update Status</th>
+        </tr>
+      </thead>
+     <tbody>
+  <tr *ngFor="let p of products; let i = index">
+    <!-- Sr No -->
+    <td>{{ i + 1 }}</td>
+
+    <!-- Product Image (first color_detail image if available) -->
+    <td>
+      <img [src]="p.color_detail?.[0]?.imagevideos?.[0]?.img_link || 'assets/no-image.png'"
+           alt="product" width="60" height="60" class="img-thumbnail">
+    </td>
+
+    <!-- Brand -->
+    <td>{{ p.brand }}</td>
+
+    <!-- Model -->
+    <td>{{ p.model }}</td>
+
+    <!-- Actions (Edit + Delete) -->
+    <td>
+<button class="btn btn-sm btn-outline-primary" (click)="editProduct(i)">✏️</button>
+<button class="btn btn-sm btn-outline-danger" (click)="confirmDelete(i)">🗑️</button>
+    </td>
+
+    <!-- View Details -->
+    <td>
+      <button class="btn btn-sm btn-outline-secondary" (click)="viewDetails(p)">👁️</button>
+    </td>
+
+    <!-- View Reviews -->
+    <td>
+      <button class="btn btn-sm btn-outline-info" (click)="viewReviews(p.product_id)">📝</button>
+    </td>
+
+    <!-- Update Stock Status -->
+ <!-- Replace your direct select -->
+<td>
+  <button class="btn btn-sm btn-outline-warning" (click)="openStockModal(p)">Update Stock</button>
+</td>
+
+  </tr>
+</tbody>
+
+    </table>
+<!-- Stock Modal -->
+<div class="modal" *ngIf="showStockModal">
+  <div class="modal-content">
+    <h3>Update Stock for {{ selectedProduct?.brand }} {{ selectedProduct?.model }}</h3>
+
+    <!-- Color Selection -->
+    <!-- Color Selection -->
+<label>Color</label>
+<select [(ngModel)]="selectedColorId">
+  <option *ngFor="let c of selectedProduct?.color_detail" [ngValue]="c.color_detail_id">
+    {{ c.color_name }}
+  </option>
+</select>
+
+<!-- Size Selection -->
+<label>Size</label>
+<select [(ngModel)]="selectedSizeId">
+  <option *ngFor="let s of selectedProduct?.size_detail" [ngValue]="s.size_detail_id">
+    {{ s.description }}
+  </option>
+</select>
+
+<!-- Availability -->
+<label>Status</label>
+<select [(ngModel)]="selectedStatus">
+  <option [ngValue]="true">Available</option>
+  <option [ngValue]="false">Out of Stock</option>
+</select>
+
+
+    <!-- Actions -->
+    <div class="modal-actions">
+      <button class="btn btn-success" (click)="updateStock()">Update</button>
+      <button class="btn btn-secondary" (click)="closeStockModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+    <p *ngIf="filteredProducts && filteredProducts.length === 0" class="no-products">
+      No products match the selected filters.
+    </p>
+  </div>
+
+</div>

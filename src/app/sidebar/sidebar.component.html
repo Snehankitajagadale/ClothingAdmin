@@ -1,0 +1,46 @@
+<div class="dashboard-container" [class.sidebar-collapsed]="isSidebarCollapsed">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2 class="logo-text"></h2>
+            <button class="collapse-btn" (click)="toggleSidebar()">
+                <i class="fas" [ngClass]="isSidebarCollapsed ? 'fa-angle-right' : 'fa-angle-left'"></i>
+            </button>
+        </div>
+
+        <nav class="nav-menu">
+             <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span *ngIf="!isSidebarCollapsed">Dashboard</span>
+            </a>
+            <a routerLink="/category" routerLinkActive="active" class="nav-item">
+                <i class="fas fa-th"></i>
+                <span *ngIf="!isSidebarCollapsed">category</span>
+            </a>
+
+            <a routerLink="/subcategory" routerLinkActive="active" class="nav-item">
+                <i class="fas fa-th-list"></i>
+                <span *ngIf="!isSidebarCollapsed">Subcategory</span>
+            </a>
+            <a routerLink="/product" routerLinkActive="active" class="nav-item">
+                <i class="fas fa-box"></i>
+                <span *ngIf="!isSidebarCollapsed">Products</span>
+            </a>
+          
+           <a routerLink="/bookings" routerLinkActive="active" class="nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span *ngIf="!isSidebarCollapsed">Bookings</span>
+                <span class="badge" *ngIf="!isSidebarCollapsed"></span>
+            </a>
+            <a routerLink="/banner-image" routerLinkActive="active" class="nav-item">
+                <i class="fas fa-image"></i>
+                <span *ngIf="!isSidebarCollapsed">Banner Image</span>
+            </a>
+           
+           <a routerLink="/notifications" routerLinkActive="active" class="nav-item">
+                <i class="fas fa-bell"></i>
+                <span *ngIf="!isSidebarCollapsed">notifications</span>
+            </a>
+        </nav>
+    </aside>
+
+</div>

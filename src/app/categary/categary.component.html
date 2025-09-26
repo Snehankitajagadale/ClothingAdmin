@@ -1,0 +1,77 @@
+<div class="hei">
+  <section class="sec1 w-100">
+    <div class="container py-4">
+      <div class="categary-container">
+        <!-- Add Button -->
+        <div class="header">
+          <button type="button" class="btn btn-primary" (click)="openModal()" *ngIf="role === 'Admin'">
+            <i class="fas fa-plus"></i> Add New Category
+          </button>
+        </div>
+
+        <!-- Table -->
+        <div class="exam-table-container">
+          <div class="exam-table-wrapper">
+            <table class="exam-table">
+              <thead>
+                <tr>
+                  <th>Sr</th>
+                  <th>Category Name</th>
+                  <th>Image</th>
+                  <th *ngIf="role === 'Admin'">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let category of categories; let i = index">
+                  <th>{{ i + 1 }}</th>
+                  <td>{{ category.category_name }}</td>
+                  <td class="center">
+                    <img [src]="category.image_link" alt="Category Image" class="category-img" />
+                  </td>
+                  <td class="center" *ngIf="role === 'Admin'">
+                    <i class="fas fa-edit edit-icon" (click)="openModal(i)"></i>
+                    <i class="fas fa-trash delete-icon" (click)="deleteCategory(i)"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal-backdrop" *ngIf="isModalOpen">
+          <div class="modal-box">
+            <h2>{{ isEditMode ? "Update" : "Add" }} Category</h2>
+            <hr>
+            <form (ngSubmit)="saveCategory()" #categoryForm="ngForm">
+              <!-- Category Name -->
+              <label>Category Name:</label>
+              <input type="text" name="categoryName" [(ngModel)]="formData.categoryName" required />
+              <div *ngIf="categoryForm.submitted && !formData.categoryName.trim()" class="text-danger">
+                Category Name is required.
+              </div>
+
+              <!-- Category Image -->
+              <label>Category Image:</label>
+              <input type="file" (change)="onImageChange($event)" [required]="!isEditMode" />
+              <div *ngIf="!isEditMode && imageTouched && !selectedImage" class="text-danger">
+                Category image is required.
+              </div>
+
+              <!-- Preview Image -->
+              <div *ngIf="formData.image_link" style="margin: 10px 0;">
+                <img [src]="formData.image_link" class="category-img" />
+              </div>
+
+              <hr>
+              <div class="modal-actions">
+                <button type="submit" class="btn btn-success">{{ isEditMode ? 'Update' : 'Save' }}</button>
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

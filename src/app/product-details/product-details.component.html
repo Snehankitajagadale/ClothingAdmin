@@ -1,0 +1,101 @@
+<div class="main-layout">
+  <div class="product-panel">
+    <h1>Product Details</h1>
+    <div class="form-box">
+
+      <!-- Basic Info -->
+      <div class="basic-info">
+        <p><strong>Category:</strong> {{ product.category }}</p>
+        <p><strong>Subcategory:</strong> {{ product.subcategory }}</p>
+        <p><strong>Brand:</strong> {{ product.brand }}</p>
+        <p><strong>Model:</strong> {{ product.model }}</p>
+        
+      <!-- Min Qty -->
+      <p><strong>Minimum Wholesale Quantity:</strong> {{ product.minQty }}</p>
+
+      </div>
+
+      <!-- Colors -->
+      <h4 *ngIf="product.colors.length">Available Colors</h4>
+      <div class="color-list">
+        <div class="color-item" *ngFor="let color of product.colors">
+          <p class="color-title">
+            <strong>{{ color.name }}</strong>
+            <span *ngIf="color.extraAmount">(+₹{{ color.extraAmount }})</span>
+          </p>
+          <div class="color-images">
+            <img *ngFor="let img of color.images"
+                 [src]="img"
+                 [alt]="color.name"
+                 class="color-image" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Sizes -->
+      <h4 *ngIf="product.sizes.length">Available Sizes</h4>
+      <table class="sizes-table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Price (₹)</th>
+            <th>Wholesale Price (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let size of product.sizes">
+            <td>{{ size.description }}</td>
+            <td>{{ size.price | currency:'INR':'symbol' }}</td>
+            <td>{{ size.wholesalePrice | currency:'INR':'symbol' }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Availability -->
+      <h4 *ngIf="product.availables.length">Availability by Color & Size</h4>
+      <table class="sizes-table">
+        <thead>
+          <tr>
+            <th>Color</th>
+            <th>Size</th>
+            <th>Available?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let a of product.availables">
+            <td>{{ a.colorName }}</td>
+            <td>{{ a.description }}</td>
+            <td>
+              <span [ngClass]="a.isAvailable ? 'available' : 'out-of-stock'">
+                {{ a.isAvailable ? 'Available' : 'Out of Stock' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- About -->
+      <h4 *ngIf="product.about.length">About</h4>
+      <ul>
+        <li *ngFor="let info of product.about">{{ info }}</li>
+      </ul>
+
+      <!-- Technical Specifications -->
+      <h4 *ngIf="product.technicalDetails.length">Technical Specifications</h4>
+      <ul>
+        <li *ngFor="let detail of product.technicalDetails">
+          <strong>{{ detail.key }}:</strong> {{ detail.value }}
+        </li>
+      </ul>
+
+      <!-- Other Specifications -->
+      <h4 *ngIf="product.otherDetails.length">Other Specifications</h4>
+      <ul>
+        <li *ngFor="let detail of product.otherDetails">
+          <strong>{{ detail.key }}:</strong> {{ detail.value }}
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,169 @@
+<div class="container mt-4">
+  <!-- Loader Overlay -->
+<div *ngIf="isLoading" class="loader-overlay">
+  <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+  <h3>{{ isEdit ? 'Edit Product' : 'Add Product' }}</h3>
+
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <!-- Basic Info -->
+   <div class="form-group">
+  <label>Sub Category</label>
+  <select formControlName="sub_category_id" class="form-control">
+    <option value="">Select Subcategory</option>
+    <option *ngFor="let sub of subcategories" [value]="sub.sub_category_id">
+      {{ sub.category.category_name }} - {{ sub.sub_category_name }}
+    </option>
+  </select>
+  <div *ngIf="productForm.get('sub_category_id')?.touched && productForm.get('sub_category_id')?.invalid"
+       class="text-danger">
+    Required
+  </div>
+</div>
+
+  <!-- Brand -->
+<!-- Brand -->
+<div class="form-group">
+  <label>Brand</label>
+  <input 
+    type="text" 
+    formControlName="brand" 
+    class="form-control" 
+    placeholder="Brand is required">
+  <div *ngIf="!isEdit && productForm.get('brand')?.touched && productForm.get('brand')?.invalid"
+       class="text-danger">
+    Brand is required
+  </div>
+</div>
+
+<!-- Model -->
+<div class="form-group">
+  <label>Model</label>
+  <input 
+    type="text" 
+    formControlName="model" 
+    class="form-control" 
+    placeholder="Model is required">
+  <div *ngIf="!isEdit && productForm.get('model')?.touched && productForm.get('model')?.invalid"
+       class="text-danger">
+    Model is required
+  </div>
+</div>
+
+
+<!-- About -->
+<div class="form-group">
+  <label>About</label>
+  <textarea 
+    formControlName="about" 
+    rows="3" 
+    class="form-control" 
+    placeholder="About is required and must be a single line">
+  </textarea>
+  <div *ngIf="!isEdit && productForm.get('about')?.touched && productForm.get('about')?.invalid"
+       class="text-danger">
+    About is required and must be a single line
+  </div>
+</div>
+
+
+<div class="form-group">
+  <label>Minimum Wholesale Quantity</label>
+  <input 
+    type="number" 
+    formControlName="minimum_quantity_wholesale" 
+    class="form-control"
+    placeholder="Minimum quantity is required and must be greater than 0">
+  <div *ngIf="!isEdit && productForm.get('minimum_quantity_wholesale')?.touched && productForm.get('minimum_quantity_wholesale')?.invalid"
+       class="text-danger">
+    Minimum quantity is required and must be greater than 0
+  </div>
+</div>
+
+
+    <!-- Technical Specs -->
+  <div formArrayName="technical_specifications" class="mt-3">
+  <h5> Specifications</h5>
+  <div *ngFor="let spec of technicalSpecifications.controls; let i=index" [formGroupName]="i"
+       class="border p-2 mb-2">
+    <input type="text" formControlName="key" placeholder="Specification Name" class="form-control mb-2">
+    <input type="text" formControlName="value" placeholder="Specification Value" class="form-control mb-2">
+    <button type="button" class="btn btn-danger btn-sm" (click)="removeTechnicalSpec(i)">Remove</button>
+  </div>
+  <button type="button" class="btn btn-primary" (click)="addTechnicalSpec()">Add Specification</button>
+
+  <!-- Validation message -->
+  <div *ngIf="!isEdit && technicalSpecifications.length === 0 && productForm.touched" class="text-danger">
+    At least one technical specification is required
+  </div>
+</div>
+
+
+    <!-- Other Specs -->
+  <div formArrayName="other_specifications" class="mt-3">
+  <h5>Other Specifications</h5>
+  <div *ngFor="let spec of otherSpecifications.controls; let i=index" [formGroupName]="i" class="border p-2 mb-2">
+    <input type="text" formControlName="key" placeholder="Specification Name" class="form-control mb-2">
+    <input type="text" formControlName="value" placeholder="Specification Value" class="form-control mb-2">
+    <button type="button" class="btn btn-danger btn-sm" (click)="removeOtherSpec(i)">Remove</button>
+  </div>
+  <button type="button" class="btn btn-primary" (click)="addOtherSpec()">Add Specification</button>
+
+  <!-- Validation message -->
+  <div *ngIf="!isEdit && otherSpecifications.length === 0 && productForm.touched" class="text-danger">
+    At least one other specification is required
+  </div>
+</div>
+
+
+
+    <!-- Sizes -->
+   <div formArrayName="size_detail" class="mt-3">
+  <h5>Sizes</h5>
+  <div *ngFor="let s of sizeDetail.controls; let i=index" [formGroupName]="i" class="border p-2 mb-2">
+    <input type="text" formControlName="description" placeholder="Description" class="form-control mb-2">
+    <input type="number" formControlName="price" placeholder="Price" class="form-control mb-2">
+    <input type="number" formControlName="wholesale_price" placeholder="Wholesale Price" class="form-control mb-2">
+    <button type="button" class="btn btn-danger btn-sm" (click)="removeSize(i)">Remove</button>
+  </div>
+  <button type="button" class="btn btn-primary" (click)="addSize()">Add Size</button>
+
+  <!-- Validation message -->
+  <div *ngIf="!isEdit && sizeDetail.length === 0 && productForm.touched" class="text-danger">
+    At least one size is required
+  </div>
+</div>
+
+
+    <!-- Colors -->
+   <div formArrayName="color_detail" class="mt-3">
+  <h5>Colors</h5>
+  <div *ngFor="let c of colorDetail.controls; let i=index" [formGroupName]="i" class="border p-2 mb-2">
+    <input type="text" formControlName="color_name" placeholder="Color Name" class="form-control mb-2">
+    <input type="number" formControlName="extra_amount" placeholder="Extra Amount" class="form-control mb-2">
+
+    <div class="mb-2" *ngIf="c.value.previewImages?.length">
+      <div *ngFor="let img of c.value.previewImages; let idx = index" class="d-inline-block mr-3">
+        <img [src]="img" alt="Color Image" class="img-thumbnail" style="width: 80px; height: 80px;">
+      </div>
+    </div>
+
+    <input type="file" (change)="onImageChange($event, i)" multiple class="form-control mb-2">
+    <button type="button" class="btn btn-danger btn-sm" (click)="removeColor(i)">Remove</button>
+  </div>
+  <button type="button" class="btn btn-primary" (click)="addColor()">Add Color</button>
+
+  <!-- Validation message -->
+  <div *ngIf="!isEdit && colorDetail.length === 0 && productForm.touched" class="text-danger">
+    At least one color is required
+  </div>
+</div>
+
+
+
+    <button type="submit" class="btn btn-success mt-3">{{ isEdit ? 'Update Product' : 'Add Product' }}</button>
+  </form>
+</div>  

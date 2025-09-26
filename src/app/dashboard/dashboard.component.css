@@ -1,0 +1,133 @@
+.dashboard-container {
+  padding: 30px;
+  margin-top: 80px;
+  margin-left: 60px;
+}
+
+.dashboard-title {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+  font-size: 1.30rem;
+  color: #222;
+}
+
+/* Card Style */
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  border-radius: 15px;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+}
+
+.stat-card h3 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.stat-card p {
+  margin: 0;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* Icon */
+.icon-wrapper {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Gradients */
+.gradient-green { background: linear-gradient(135deg, #28a745, #6fda44); }
+.gradient-blue { background: linear-gradient(135deg, #007bff, #00c6ff); }
+.gradient-orange { background: linear-gradient(135deg, #ff8c00, #ffb347); }
+.gradient-red { background: linear-gradient(135deg, #dc3545, #ff6a6a); }
+.gradient-purple { background: linear-gradient(135deg, #6f42c1, #b064ff); }
+
+/* Filter Controls */
+.filter-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+.date-group {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+}
+
+.date-group label {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.date-group input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.btn-search {
+  padding: 10px 20px;
+  border: none;
+  background: #111;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.3s ease;
+}
+
+.btn-search:hover {
+  background: #ff4112;
+}
+.btn-clear {
+  padding: 10px 20px;
+  border: none;
+  background: #ff3b3b;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.3s ease;
+}
+
+.btn-clear:hover {
+  background: #d32f2f;
+}
+/* Make entire card clickable */
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.card-link:hover {
+  transform: scale(1.02);
+}

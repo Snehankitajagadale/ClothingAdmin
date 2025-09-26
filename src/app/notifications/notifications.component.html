@@ -1,0 +1,100 @@
+<div class="notifications-container pt">
+  <h2>Notifications</h2>
+
+  <!-- Date filter -->
+  <label for="date">Filter by Date</label>
+  <input type="date" id="date" [max]="today" (change)="onDateChange($event)" />
+
+  <!-- Notification list -->
+  <div
+    class="notifications-list"
+    *ngIf="filteredNotifications.length > 0; else noNotifications"
+  >
+    <div
+      class="notification-item"
+      *ngFor="let n of filteredNotifications"
+      [ngClass]="{ read: n.viewed, unread: !n.viewed }"
+      (click)="openviewModal(n.notificationId)"
+    >
+      <div class="notification-header">
+        <span class="notification-type">Booking Update</span>
+        <span class="notification-time">{{ n.creation_time }}</span>
+      </div>
+      <p class="notification-message">{{ n.message }}</p>
+    </div>
+  </div>
+
+  <ng-template #noNotifications>
+    <p class="no-notifications-message">No notifications found</p>
+  </ng-template>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" *ngIf="showviewModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Notification Details</h2>
+      <button class="btn-close" (click)="closeModal()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <p><strong>Message:</strong> {{ selectedNotification?.message }}</p>
+      <p><strong>Date:</strong> {{ selectedNotification?.creation_time }}</p>
+
+      <hr />
+
+      <h3>User Details</h3>
+      <div *ngIf="selectedNotification?.userDetails; else loadingUser">
+        <p><strong>User Name:</strong> {{ selectedNotification.userDetails.name }}</p>
+        <p><strong>Email:</strong> {{ selectedNotification.userDetails.email }}</p>
+        <p><strong>Mobile:</strong> {{ selectedNotification.userDetails.mobile }}</p>
+      </div>
+      <ng-template #loadingUser>
+        <p>Loading user details...</p>
+      </ng-template>
+
+      <hr />
+
+      <h3>Booking Details</h3>
+      <div *ngIf="selectedNotification?.bookingDetails; else loadingBooking">
+        <p><strong>Booking ID:</strong> {{ selectedNotification.bookingDetails.bookingId }}</p>
+        <p><strong>Status:</strong> {{ selectedNotification.bookingDetails.bookingStatus }}</p>
+        <p><strong>Date:</strong> {{ selectedNotification.bookingDetails.bookingDate }}</p>
+        <p><strong>Total Price:</strong> {{ selectedNotification.bookingDetails.totalPrice }}</p>
+      </div>
+      <ng-template #loadingBooking>
+        <p>Loading booking details...</p>
+      </ng-template>
+
+      <hr />
+
+      <h3>Product Details</h3>
+      <div *ngIf="selectedNotification?.productDetails?.length > 0; else noProducts">
+        <div class="product-card" *ngFor="let p of selectedNotification.productDetails">
+          <img [src]="p.image_link" alt="Product Image" class="product-image" />
+          <div class="product-info">
+            <p><strong>Name:</strong> {{ p.product_name }}</p>
+            <p *ngIf="p.colorName"><strong>Color:</strong> {{ p.colorName }}</p>
+            <p *ngIf="p.description"><strong>Size:</strong> {{ p.description }}</p>
+            <p><strong>Price:</strong> {{ p.price }}</p>
+            <p><strong>Quantity:</strong> {{ p.quantity }}</p>
+            <p><strong>Total:</strong> {{ p.total_price }}</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+  <button class="btn btn-primary"
+          *ngIf="selectedNotification?.bookingDetails?.bookingId"
+          (click)="viewBooking(selectedNotification.bookingDetails.bookingId)">
+    View Booking Details
+  </button>
+  <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+</div>
+
+      </div>
+      <ng-template #noProducts>
+        <p>No product details available.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,91 @@
+<div class="hei">
+  <section class="sec1 w-100">
+    <div class="container py-4">
+      <div class="categary-container">
+
+        <!-- Header -->
+        <div class="header">
+          <button type="button" class="btn btn-primary" (click)="openModal()" *ngIf="role === 'Admin'">
+            <i class="fas fa-plus"></i> Add New Subcategory
+          </button>
+        </div>
+
+        <!-- Table -->
+        <div class="exam-table-container">
+          <div class="exam-table-wrapper">
+            <table class="exam-table">
+              <thead>
+                <tr>
+                  <th>Sr</th>
+                  <th>Category</th>
+                  <th>Subcategory</th>
+                  <th>Image</th>
+                  <th *ngIf="role === 'Admin'">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let group of groupedData; let i = index">
+                  <tr *ngFor="let sub of group.subcategories; let j = index">
+                    <!-- Show category name only on first row of the group -->
+                    <td>{{ i + 1 }}.{{ j + 1 }}</td>
+                    <td *ngIf="j === 0" [attr.rowspan]="group.subcategories.length" class="category-cell">
+                      {{ group.category?.category_name }}
+                    </td>
+                    <td>{{ sub.sub_category_name }}</td>
+                    <td class="center">
+                      <img [src]="sub.image_link" alt="Subcategory Image" class="category-img" />
+                    </td>
+                    <td class="center" *ngIf="role === 'Admin'">
+                      <i class="fas fa-edit edit-icon" (click)="openModal(sub)"></i>
+                      <i class="fas fa-trash delete-icon" (click)="deleteSubcategory(sub.sub_category_id)"></i>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Modal (same as your existing modal) -->
+        <div class="main-layout">
+          <div class="modal-backdrop" *ngIf="isModalOpen">
+            <div class="modal-box">
+              <h2 class="modal-title">{{ isEditMode ? 'Update' : 'Add' }} Subcategory</h2>
+              <hr>
+              <form (ngSubmit)="saveSubcategory()" #subcategoryForm="ngForm" enctype="multipart/form-data">
+                <!-- Select Category -->
+                <div class="form-group">
+                  <label for="category">Select Category:</label>
+                  <select [(ngModel)]="formData.category_id" name="category_id" required>
+                    <option [ngValue]="''" disabled>Select</option>
+                    <option *ngFor="let cat of categories" [ngValue]="cat.category_id">{{ cat.category_name }}</option>
+                  </select>
+                </div>
+                <!-- Subcategory Name -->
+                <div class="form-group">
+                  <label>Subcategory Name:</label>
+                  <input type="text" name="sub_category_name" [(ngModel)]="formData.sub_category_name" required />
+                </div>
+                <!-- Image Upload -->
+                <div class="form-group">
+                  <label>Subcategory Image:</label>
+                  <input type="file" (change)="onImageChange($event)" [required]="!isEditMode" />
+                </div>
+                <!-- Preview -->
+                <div *ngIf="formData.image_link" class="preview-img">
+                  <img [src]="formData.image_link" class="category-img" />
+                </div>
+                <hr>
+                <div class="modal-actions">
+                  <button type="submit" class="save-btn">Save</button>
+                  <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
